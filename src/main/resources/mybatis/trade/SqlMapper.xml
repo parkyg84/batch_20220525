@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.batch_20220525">
+
+
+
+    <select id="selectTest" parameterType="hashmap"	 resultType="com.example.batch_20220525.Person">
+        SELECT first_name as firstName,last_name as lastName
+        FROM monkey.people2
+        ORDER BY id
+        OFFSET #{_skiprows} ROWS FETCH NEXT #{_pagesize} ROWS ONLY
+
+
+    </select>
+
+
+    <select id="selectTest4" parameterType="hashmap"	 resultType="com.example.batch_20220525.Person">
+        SELECT first_name as firstName,last_name as lastName
+        FROM monkey.people2
+        ORDER BY id
+        LIMIT #{_pageSize, jdbcType=INTEGER} OFFSET #{_page, jdbcType=INTEGER}
+
+
+    </select>
+
+
+    <select id="selectTest3" parameterType="hashmap"	 resultType="com.example.batch_20220525.Person">
+
+        select R1.* FROM(
+        SELECT first_name as firstName,last_name as lastName
+        FROM monkey.people2 order by id asc
+        ) R1
+        LIMIT #{_pageSize, jdbcType=INTEGER} OFFSET #{_page, jdbcType=INTEGER}
+
+    </select>
+
+
+
+    <insert id="insertTest" parameterType="com.example.batch_20220525.Person">
+        insert into monkey.people3(firstName,lastName) values (#{firstName,jdbcType=VARCHAR},#{lastName,jdbcType=VARCHAR})
+    </insert>
+
+
+</mapper>
+
